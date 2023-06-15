@@ -1,0 +1,97 @@
+
+.App {
+  text-align: center;
+  width:100%;
+  font-family: 'Inter', sans-serif;
+}
+.h2{
+  font-size:50px;
+}
+
+.list-container{
+  width: 100%;
+  padding:10px;
+  margin-bottom: 10px;
+}
+.list-item {
+  display: flex;
+  align-items: center;
+  background-color: #f9f9f9;
+  margin-bottom: 2px;
+  border-bottom: 1px solid #ccc; /* Only bottom border */
+  /* padding: 20px 20px; */
+  margin-top: 0px;
+  transition: all 0.2s ease-in-out;  
+  /* margin: 50px; */
+  margin-left:100px;
+  margin-right: 100px;
+  font-size:  16px;
+  font-weight: 500;
+}
+
+.list-item:hover {
+  scale: 1.02; 
+  border:1.5px solid #8A4893;
+  border-radius:8px;
+}
+
+
+.menu-icon{
+  padding-right: 20px;
+}
+.menu-icon{
+  cursor: pointer;
+}
+.info-icon{
+  padding-right: 20px;
+}
+.edit-icon{
+  margin-left: auto;
+  margin-right: 30px;
+}
+.edit-save-button{
+  margin-left: auto; 
+  margin-right: 30px; 
+}
+.save-next-button{
+
+width: 429px;
+height: 52px;
+background: #8A4893;
+border-radius: 15px;
+border: 1px solid white;
+/* font-family: 'Inter'; */
+font-style: normal;
+font-weight: 400;
+font-size: 18px;
+line-height: 24px;
+color: #FFFFFF;
+letter-spacing: 0.5px;
+font-family: 'Inter', sans-serif;
+}
+
+.edit-save-button{
+  padding: 0;
+  border:none;
+  background: none;
+}
+.item-title-style{
+  font-size: 16px;
+}
+.text-input{
+  font-size: 15px;
+  /* padding: 5px; */
+}
+.section-description {
+  margin: 0;
+  padding: 8px;
+  font-size: 14px;
+  color: #555;
+  /* Add more styles as needed */
+}
+.edit-mode{
+  background: #B6B6B6;
+}
+.info-icon{
+  font-size: 18px;
+}

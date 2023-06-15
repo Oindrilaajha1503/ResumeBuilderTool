@@ -1,0 +1,174 @@
+import React, { useState, useRef } from 'react';
+import { MdDensityMedium } from 'react-icons/md';
+import { IoInformationCircleOutline } from 'react-icons/io5';
+import { MdOutlineModeEditOutline } from 'react-icons/md';
+import Switch from './components/Switch';
+import './App.css';
+
+function App() {
+  const [items, setItems] = useState([
+    {
+      title: 'Profile Summary',
+      description: 'This is the profile summary description.',
+    },
+    {
+      title: 'Academic and Cocurricular Achievements',
+      description: 'This is the academic and cocurricular achievements description.',
+    },
+    // Add more items here
+    {
+      title: 'Summer Internship Experience',
+      description: 'This is the summer internship experience description.',
+    },
+    {
+      title: 'Work Experience',
+      description: 'This is the work experience description.',
+    },
+    {
+      title: 'Projects',
+      description: 'This is the projects description.',
+    },
+    {
+      title: 'Certifications',
+      description: 'This is the certifications description.',
+    },
+    {
+      title: 'Leadership Positions',
+      description: 'This is the leadership positions description.',
+    },
+    {
+      title: 'Extracurricular',
+      description: 'This is the extracurricular description.',
+    },
+    {
+      title: 'Education',
+      description: 'This is the education description.',
+    },
+  ]);
+
+  const [selectedSection, setSelectedSection] = useState(null);
+  const [editedItems, setEditedItems] = useState([...items]);
+  const [editingItemIndex, setEditingItemIndex] = useState(null);
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [isEditDone, setIsEditDone] = useState(false);
+  const [isSaveNextVisible, setIsSaveNextVisible] = useState(false);
+
+  const dragItem = useRef(null);
+  const dragOverItem = useRef(null);
+
+  const handleSort = () => {
+    let _items = [...items];
+    const draggedItemContent = _items.splice(dragItem.current, 1)[0];
+    _items.splice(dragOverItem.current, 0, draggedItemContent);
+    dragItem.current = null;
+    dragOverItem.current = null;
+    setItems(_items);
+    setEditedItems(_items);
+    setIsEditDone(true);
+    setIsSaveNextVisible(true);
+  };
+
+  const handleMenuIconClick = (index) => {
+    dragItem.current = index;
+    handleSort();
+  };
+
+  const handleSectionClick = (index) => {
+    setSelectedSection(index === selectedSection ? null : index);
+  };
+
+  const handleEditButtonClick = (index) => {
+    setEditingItemIndex(index);
+    setIsEditMode(true);
+    setIsSaveNextVisible(true);
+  };
+
+  const handleSaveButtonClick = () => {
+    const newItems = [...items];
+    newItems[editingItemIndex] = editedItems[editingItemIndex];
+    setItems(newItems);
+    setIsEditMode(false);
+    setEditingItemIndex(null);
+    setIsEditDone(false);
+    setIsSaveNextVisible(false);
+  };
+
+  const handleToggleSwitch = (index) => {
+    const newItems = [...editedItems];
+    newItems[index].isChecked = !newItems[index].isChecked;
+    setEditedItems(newItems);
+    setIsEditDone(true);
+    setIsSaveNextVisible(true);
+  };
+
+  const handleEditItemTitle = (index, value) => {
+    const newItems = [...editedItems];
+    newItems[index].title = value;
+    setEditedItems(newItems);
+    setIsEditDone(true);
+    setIsSaveNextVisible(true);
+  };
+
+  return (
+    <div className="App">
+      <h2>Select your sections</h2>
+      <div className="list-container-1"></div>
+      <div className="list-container">
+        {items.map((item, index) => (
+          <div
+            key={index}
+            className={`list-item ${isEditMode && editingItemIndex !== index ? 'edit-mode' : ''}`}
+            draggable
+            onDragStart={() => (dragItem.current = index)}
+            onDragEnter={() => (dragOverItem.current = index)}
+            onDragEnd={handleSort}
+          >
+            <MdDensityMedium
+              className="menu-icon"
+              onClick={() => handleMenuIconClick(index)}
+            />
+            <IoInformationCircleOutline
+              className="info-icon"
+              onClick={() => handleSectionClick(index)}
+            />
+            {isEditMode && editingItemIndex === index ? (
+              <input
+                type="text"
+                className="text-input"
+                value={editedItems[index].title}
+                onChange={(e) => handleEditItemTitle(index, e.target.value)}
+              />
+            ) : (
+              <p className="item-title-style">{item.title}</p>
+            )}
+            {selectedSection === index && (
+              <p className="section-description">{item.description}</p>
+            )}
+            {isEditMode && editingItemIndex === index ? (
+              <button onClick={handleSaveButtonClick} className="edit-save-button">
+                Save
+              </button>
+            ) : (
+              <MdOutlineModeEditOutline
+                onClick={() => handleEditButtonClick(index)}
+                className="edit-icon"
+              />
+            )}
+            <Switch
+              checked={editedItems[index].isChecked}
+              onChange={() => handleToggleSwitch(index)}
+              className="toggle-button"
+            />
+          </div>
+        ))}
+      </div>
+      {isSaveNextVisible && (
+        <button onClick={handleSaveButtonClick} className="save-next-button">
+          Save and Next
+        </button>
+      )}
+    </div>
+  );
+}
+
+export default App;
